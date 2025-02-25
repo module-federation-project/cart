@@ -1,24 +1,26 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import { useStore } from "shell/store";
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import { useStore } from 'shell/store';
 
 const Cart = () => {
   const { cart, removeFromCart } = useStore();
 
   return (
     <div>
-      <Typography mb={4} variant="h6"></Typography>
-      <Stack spacing={4}>
-        {cart &&
-          cart.map((item) => (
+      <Typography mb={4} variant="h6">
+        This is your cart micro.
+      </Typography>
+      {cart && cart?.length > 0 ? (
+        <Stack spacing={4}>
+          {cart.map(item => (
             <Card
               key={item.id}
-              sx={{ display: "flex", alignItems: "center", p: 2 }}
+              sx={{ display: 'flex', alignItems: 'center', p: 2 }}
             >
               <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h6">{item.name}</Typography>
@@ -39,7 +41,12 @@ const Cart = () => {
               </Button>
             </Card>
           ))}
-      </Stack>
+        </Stack>
+      ) : (
+        <Typography mb={4} variant="h7">
+          Your cart is empty!
+        </Typography>
+      )}
     </div>
   );
 };
