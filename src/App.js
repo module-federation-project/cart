@@ -1,30 +1,37 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import { useStore } from 'shell/store';
+import React from "react";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 const Cart = () => {
-  const { cart, removeFromCart } = useStore();
+  let removeFromCart;
+  let cart;
+
+  try {
+    const store = require("shell/store");
+    const storeInstance = store.useStore();
+    removeFromCart = storeInstance.removeFromCart;
+    cart = storeInstance.cart;
+  } catch (e) {
+    console.error("shell/store module not found");
+  }
 
   return (
     <div>
       <Typography mb={4} variant="h6">
         This is your cart micro.
       </Typography>
-      {cart && cart?.length > 0 ? (
+      {cart && cart.length > 0 ? (
         <Stack spacing={4}>
-          {cart.map(item => (
+          {cart.map((item) => (
             <Card
               key={item.id}
-              sx={{ display: 'flex', alignItems: 'center', p: 2 }}
+              sx={{ display: "flex", alignItems: "center", p: 2 }}
             >
               <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h6">{item.name}</Typography>
-
                 <Typography color="text.secondary">
                   {item.quantity} x {item.price}
                 </Typography>
